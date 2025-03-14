@@ -3,35 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rive Анимация</title>
+    <title>Rive Test</title>
     <script src="https://unpkg.com/@rive-app/canvas@2.6.0"></script>
 </head>
 <body>
+
     <canvas id="riveCanvas" width="500" height="500"></canvas>
+
     <script>
-    const r = new rive.Rive({
-        src: "humanrig.riv", // Загруженный .riv файл
-        canvas: document.getElementById("riveCanvas"),
-        autoplay: true,
-        stateMachines: "JoystickState", // Название State Machine в Rive
-        onLoad: () => {
-            // Получаем контроллер машины состояний
-            const inputs = r.stateMachineInputs("JoystickState");
+        const r = new rive.Rive({
+            src: "humanrig.riv", // Укажи верный URL .riv файла
+            canvas: document.getElementById("riveCanvas"),
+            autoplay: true,
+            stateMachines: "JoystickState", // Проверь правильное название State Machine
+            onLoad: () => {
+                const inputs = r.stateMachineInputs("JoystickState");
 
-            // Находим параметры, которые управляют анимацией
-            const xInput = inputs.find(i => i.name === "X");
-            const yInput = inputs.find(i => i.name === "Y");
+                if (!inputs) {
+                    console.error("State Machine не найден!");
+                    return;
+                }
 
-            // Обработчик движения мыши
-            window.addEventListener("mousemove", (event) => {
-                let x = event.clientX / window.innerWidth * 2 - 1;
-                let y = event.clientY / window.innerHeight * 2 - 1;
+                const xInput = inputs.find(i => i.name === "X");
+                const yInput = inputs.find(i => i.name === "Y");
 
-                xInput.value = x * 100; // Масштабируем значения
-                yInput.value = y * 100;
-            });
-        }
-    });
+                if (!xInput || !yInput) {
+                    console.error("Параметры X или Y не найдены!");
+                    return;
+                }
+
+                // Добавляем реакцию на движение мыши
+                window.addEventListener("mousemove", (event) => {
+                    let x = (event.clientX / window.innerWidth) * 200 - 100;
+                    let y = (event.clientY / window.innerHeight) * 200 - 100;
+                    xInput.value = x;
+                    yInput.value = y;
+                });
+            }
+        });
     </script>
+
 </body>
 </html>
