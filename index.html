@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rive Анимация</title>
+    <script src="https://unpkg.com/@rive-app/canvas@2.6.0"></script>
+</head>
+<body>
+    <canvas id="riveCanvas" width="500" height="500"></canvas>
+
+    <script>
+        const r = new rive.Rive({
+            src: "humanrig.riv", // Замените на путь к вашему файлу
+            canvas: document.getElementById("riveCanvas"),
+            autoplay: true
+        });
+    </script>
+</body>
+</html>
