@@ -12,25 +12,27 @@
 
     <script>
         const r = new rive.Rive({
-            src: "humanrig.riv", // Укажи верный URL .riv файла
+            src: "humanrig.riv", // Загруженный .riv файл с сервера
             canvas: document.getElementById("riveCanvas"),
             autoplay: true,
-            stateMachines: "JoystickState", // Проверь правильное название State Machine
+            stateMachines: "State Machine 1", // Указал правильное название
             onLoad: () => {
-                const inputs = r.stateMachineInputs("JoystickState");
+                const inputs = r.stateMachineInputs("State Machine 1");
 
                 if (!inputs) {
                     console.error("State Machine не найден!");
                     return;
                 }
 
-                const xInput = inputs.find(i => i.name === "X");
-                const yInput = inputs.find(i => i.name === "Y");
+                const xInput = inputs.find(i => i.name === "character x");
+                const yInput = inputs.find(i => i.name === "character y");
 
                 if (!xInput || !yInput) {
-                    console.error("Параметры X или Y не найдены!");
+                    console.error("Параметры character x или character y не найдены!");
                     return;
                 }
+
+                console.log("Inputs загружены:", xInput, yInput);
 
                 // Добавляем реакцию на движение мыши
                 window.addEventListener("mousemove", (event) => {
