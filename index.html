@@ -8,13 +8,30 @@
 </head>
 <body>
     <canvas id="riveCanvas" width="500" height="500"></canvas>
-
     <script>
-        const r = new rive.Rive({
-            src: "humanrig.riv", // Замените на путь к вашему файлу
-            canvas: document.getElementById("riveCanvas"),
-            autoplay: true
-        });
+    const r = new rive.Rive({
+        src: "humanrig.riv", // Загруженный .riv файл
+        canvas: document.getElementById("riveCanvas"),
+        autoplay: true,
+        stateMachines: "JoystickState", // Название State Machine в Rive
+        onLoad: () => {
+            // Получаем контроллер машины состояний
+            const inputs = r.stateMachineInputs("JoystickState");
+
+            // Находим параметры, которые управляют анимацией
+            const xInput = inputs.find(i => i.name === "X");
+            const yInput = inputs.find(i => i.name === "Y");
+
+            // Обработчик движения мыши
+            window.addEventListener("mousemove", (event) => {
+                let x = event.clientX / window.innerWidth * 2 - 1;
+                let y = event.clientY / window.innerHeight * 2 - 1;
+
+                xInput.value = x * 100; // Масштабируем значения
+                yInput.value = y * 100;
+            });
+        }
+    });
     </script>
 </body>
 </html>
